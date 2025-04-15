@@ -14,13 +14,7 @@ const Header = () => {
   const { user, isLoaded } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [showPlatformModal, setShowPlatformModal] = useState(false);
-  const [platformUsernames, setPlatformUsernames] = useState({
-    LeetCode_Username: '',
-    Geeks4Geeks_Username: '',
-    HackerRank_Username: '',
-    CodeChef_Username: ''
-  });
+
 
   const tabs = [
     { name: "Dashboard", url: "/dashboard" },
@@ -67,27 +61,9 @@ const Header = () => {
     }
   };
 
-  const handlePlatformSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const { error } = await supabase
-        .from('Users')
-        .update(platformUsernames)
-        .eq('UserID', user.id);
 
-      if (error) throw error;
-      setShowPlatformModal(false);
-    } catch (error) {
-      console.error('Error saving platforms:', error);
-    }
-  };
 
-  const handlePlatformChange = (platform, value) => {
-    setPlatformUsernames(prev => ({
-      ...prev,
-      [platform]: value
-    }));
-  };
+
 
   useEffect(() => {
     if (isLoaded) {
@@ -150,45 +126,7 @@ const Header = () => {
         </nav>
       </header>
 
-      {
-        showPlatformModal && (
-          <div className="platform-modal-overlay">
-            <div className="platform-modal">
-              <h2 className="modal-title">Connect Your Coding Profiles</h2>
-              <p className="modal-subtitle">Help us track your coding progress by connecting your profiles</p>
 
-              <form onSubmit={handlePlatformSubmit} className="platform-form">
-                {[
-                  { name: 'LeetCode_Username', label: 'LeetCode', icon: '💡' },
-                  { name: 'Geeks4Geeks_Username', label: 'GeeksforGeeks', icon: '📚' },
-                  { name: 'CodeChef_Username', label: 'CodeChef_Username', icon: '⭐' },
-                  { name: 'HackerRank_Username', label: 'CodeChef_Username', icon: '⭐' }
-                ].map((platform) => (
-                  <div key={platform.name} className="input-group">
-                    <label>
-                      {platform.icon} {platform.label}
-                    </label>
-                    <input
-                      type="text"
-                      placeholder={`${platform.label} username`}
-                      value={platformUsernames[platform.name]}
-                      onChange={(e) => handlePlatformChange(platform.name, e.target.value)}
-                      className="platform-input"
-                    />
-                  </div>
-                ))}
-
-                <div className="modal-actions">
-                  <button type="submit" className="submit-button">
-                    Save Preferences
-                  </button>
-                  <p className="note">You can update these later in your profile settings</p>
-                </div>
-              </form>
-            </div>
-          </div>
-        )
-      }
     </>
   );
 };
