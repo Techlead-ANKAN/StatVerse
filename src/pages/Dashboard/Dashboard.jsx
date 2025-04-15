@@ -123,7 +123,26 @@ function Dashboard() {
     }
   };
 
-  
+
+  const StatsCard = ({ title, icon, children }) => (
+    <div className="stats-card">
+      <div className="stats-header">
+        <span className="stats-icon">{icon}</span>
+        <h3 className="stats-title">{title}</h3>
+      </div>
+      <div className="stats-content">
+        {children}
+      </div>
+    </div>
+  );
+
+  const StatItem = ({ label, value }) => (
+    <div className="stat-item">
+      <span className="stat-label">{label}</span>
+      <span className="stat-value">{value}</span>
+    </div>
+  );
+
 
   return (
     <div className="dashboard-container">
@@ -164,52 +183,41 @@ function Dashboard() {
           </form>
 
 
+
         </div>
       </section>
-      {(leetcode.totalSolved || gfg.totalProblemsSolved || codechef.rating) && (
-        <div className="coding-stats-wrapper">
-          <h2 className="section-title">Your Coding Stats</h2>
-          <div className="stats-grid">
 
-            {/* LeetCode Stats */}
-            {leetcode.totalSolved && (
-              <div className="stat-card fade-in">
-                <h3 className="stat-platform">💡 LeetCode</h3>
-                <p><strong>Total Solved:</strong> {leetcode.totalSolved}</p>
-                <p><strong>Easy:</strong> {leetcode.easySolved} / {leetcode.totalEasy}</p>
-                <p><strong>Medium:</strong> {leetcode.mediumSolved} / {leetcode.totalMedium}</p>
-                <p><strong>Hard:</strong> {leetcode.hardSolved} / {leetcode.totalHard}</p>
-                <p><strong>Ranking:</strong> {leetcode.ranking}</p>
-              </div>
-            )}
+      {/* Stats Grid Section */}
+      <div className="stats-grid">
+        {leetcode.totalSolved && (
+          <StatsCard title="LeetCode" icon="💻">
+            <StatItem label="Total Solved" value={`${leetcode.totalSolved}`} />
+            <StatItem label="Easy" value={`${leetcode.easySolved}/${leetcode.totalEasy}`} />
+            <StatItem label="Medium" value={`${leetcode.mediumSolved}/${leetcode.totalMedium}`} />
+            <StatItem label="Hard" value={`${leetcode.hardSolved}/${leetcode.totalHard}`} />
+            <StatItem label="Ranking" value={`#${leetcode.ranking}`} />
+          </StatsCard>
+        )}
 
-            {/* GeeksforGeeks Stats */}
-            {gfg.totalProblemsSolved && (
-              <div className="stat-card fade-in delay-1">
-                <h3 className="stat-platform">📚 GeeksforGeeks</h3>
-                <p><strong>Total Solved:</strong> {gfg.totalProblemsSolved}</p>
-                <p><strong>Easy:</strong> {gfg.Easy}</p>
-                <p><strong>Medium:</strong> {gfg.Medium}</p>
-                <p><strong>Hard:</strong> {gfg.Hard}</p>
-                <p><strong>Basic:</strong> {gfg.basic}</p>
-              </div>
-            )}
+        {gfg.totalProblemsSolved && (
+          <StatsCard title="GeeksforGeeks" icon="📚">
+            <StatItem label="Total Solved" value={gfg.totalProblemsSolved} />
+            <StatItem label="Basic" value={gfg.Basic} />
+            <StatItem label="Easy" value={gfg.Easy} />
+            <StatItem label="Medium" value={gfg.Medium} />
+            <StatItem label="Hard" value={gfg.Hard} />
+          </StatsCard>
+        )}
 
-            {/* CodeChef Stats */}
-            {codechef.rating && (
-              <div className="stat-card fade-in delay-2">
-                <h3 className="stat-platform">🍁 CodeChef</h3>
-                <p><strong>Rating:</strong> {codechef.rating}</p>
-                <p><strong>Stars:</strong> {codechef.stars}</p>
-                <p><strong>Global Rank:</strong> {codechef.globalRank}</p>
-                <p><strong>Country Rank:</strong> {codechef.countryRank}</p>
-              </div>
-            )}
-
-          </div>
-        </div>
-      )}
-
+        {codechef.rating && (
+          <StatsCard title="CodeChef" icon="🍁">
+            <StatItem label="Rating" value={codechef.rating} />
+            <StatItem label="Stars" value={codechef.stars} />
+            <StatItem label="Global Rank" value={`#${codechef.globalRank}`} />
+            <StatItem label="Country Rank" value={`#${codechef.countryRank}`} />
+          </StatsCard>
+        )}
+      </div>
     </div>
   );
 }

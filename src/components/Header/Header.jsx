@@ -18,9 +18,6 @@ const Header = () => {
 
   const tabs = [
     { name: "Dashboard", url: "/dashboard" },
-    { name: "Analytics", url: "/analytics" },
-    { name: "Reports", url: "/reports" },
-    { name: "Team", url: "/team" },
     { name: "About", url: "/about" },
   ];
 
