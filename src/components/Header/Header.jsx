@@ -19,6 +19,7 @@ const Header = () => {
   const tabs = [
     { name: "Dashboard", url: "/dashboard" },
     { name: "About", url: "/about" },
+    { name: "Home", url: "/" },
   ];
 
   const insertNewUser = async (user) => {
